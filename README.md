@@ -24,15 +24,26 @@ In this challenge, create a web API around the following resources: `Projects` a
 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
-- [ ] Mention two parts of Express that you learned about this week.
+- [ ] Mention two parts of Express that you learned about this week. 
 
-- [ ] Describe Middleware?
+A: One thing I learned about express is routes. I wasn't aware of how to attach routes to and express server before.
+Another thing I learned is about middlewares. I understand now that almost everything in express is a middleware of some sort. Just a function that chains to the next one with the last function being the response.
 
-- [ ] Describe a Resource?
+- [ ] Describe Middleware? 
 
-- [ ] What can the API return to help clients know if a request was successful?
+A: A middleware is a function that sits somewhere in between the initial request and the final responding function. In express it allows us to create things such as validators that can be applied to many of our endpoints so that we can reuse our code.
 
-- [ ] How can we partition our application into sub-applications?
+- [ ] Describe a Resource? 
+
+A: A resource is a single piece or collection of data with the same or similar types that have methods for http requests attached. Usually corresponding with a URL, a resource accepts http requests and mutates or sends it's data in response. An example could be posts on a blog API, where the post is a resource that has CRUD operations to modify and recieve the resource.
+
+- [ ] What can the API return to help clients know if a request was successful? 
+
+A: API's can return status codes. Status codes, although not enforced, have a standard that maps status codes to information about a request and what the server or API has done in response to the request, such as whether the request failed, the resource doesn't exist etc.
+
+- [ ] How can we partition our application into sub-applications? 
+
+A: We can parition our application by first splitting up our resources, and then creating modules of our backend code that correspond to the resources. The aim of this is to make resources seperate in terms of function, only sharing reusable code and helpers. We would also split these resources onto different endpoints and routes so that each resource can be responsible for it's own request handling.
 
 ## Project Setup
 
