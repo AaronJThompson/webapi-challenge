@@ -52,6 +52,14 @@ router.put('/:id', helper.validateActionID, async (req, res) => {
     }
 })
 
+router.delete('/:id', helper.validateActionID, async (req, res) => {
+    try {
+        await actionsDB.remove(req.action.id);
+        res.status(200).json(req.action);
+    } catch (error) {
+        helper.sendError(res, "Couldn't remove action", 500);
+    }
+})
 router.use(helmet());
 
 module.exports = router;
