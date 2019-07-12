@@ -32,6 +32,26 @@ router.post('/', helper.validateAction, async (req, res) => {
     }
 })
 
+router.put('/:id', helper.validateActionID, async (req, res) => {
+    if(Object.keys(req.body) === 0) {
+        helper.sendError(res, "Nothing to update", 400);
+        return;
+    }
+    if(req.description && req.description.length > 128) {
+        helper.sendError(res, "Description too long. 128 character limit", 400);
+        return;
+    }
+    try {
+        const action = await actionsDB.update(req.action.id, req.body);
+        if (!action) {
+            throw new Error("Couldn't update action");
+        }
+        res.status(200).json(action);
+    } catch (error) {
+        helper.sendError(res, "Couldn't update action", 500);
+    }
+})
+
 router.use(helmet());
 
 module.exports = router;
