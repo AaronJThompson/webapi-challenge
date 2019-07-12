@@ -30,6 +30,15 @@ async function validateProjectID(req, res, next) {
         next();
     }
 }
+
+function validateProject(req, res, next) {
+    const { name, description } = req.body;
+    if (!name || !description) {
+        sendError(res, "Name and description field are required to create project", 400);
+        return;
+    }
+    next();
+}
 router.get('/', async (req, res) => {
     try {
         const projs = await projectsDB.get();
@@ -43,4 +52,5 @@ router.get('/:id', validateProjectID, (req, res) => {
     res.status(200).json(req.project);
 })
 
+router.post('/', )
 module.exports = router;
