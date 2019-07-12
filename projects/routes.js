@@ -39,6 +39,7 @@ function validateProject(req, res, next) {
     }
     next();
 }
+
 router.get('/', async (req, res) => {
     try {
         const projs = await projectsDB.get();
@@ -52,5 +53,15 @@ router.get('/:id', validateProjectID, (req, res) => {
     res.status(200).json(req.project);
 })
 
-router.post('/', )
+router.post('/', validateProject, async (req, res) => {
+    try {
+        const post = await projectsDB.insert(req.body);
+        if (!post) {
+            throw new Error("Post couldn't be created");
+        }
+        res.status(201).json(post);
+    } catch (error) {
+        sendError(res, "Post couldn't be created", 500);
+    }
+})
 module.exports = router;
