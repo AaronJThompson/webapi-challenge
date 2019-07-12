@@ -20,6 +20,18 @@ router.get('/:id', helper.validateActionID, (req, res) => {
     res.status(200).json(req.action);
 })
 
+router.post('/', helper.validateAction, async (req, res) => {
+    try {
+        const action = await actionsDB.insert(req.body);
+        if (!action) {
+            throw new Error("Couldn't create action");
+        }
+        res.status(201).json(action);
+    } catch (error) {
+        helper.sendError(res, "Couldn't create action", 500);
+    }
+})
+
 router.use(helmet());
 
 module.exports = router;
