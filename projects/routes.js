@@ -55,13 +55,30 @@ router.get('/:id', validateProjectID, (req, res) => {
 
 router.post('/', validateProject, async (req, res) => {
     try {
-        const post = await projectsDB.insert(req.body);
-        if (!post) {
-            throw new Error("Post couldn't be created");
+        const proj = await projectsDB.insert(req.body);
+        if (!proj) {
+            throw new Error("Project couldn't be created");
         }
         res.status(201).json(post);
     } catch (error) {
-        sendError(res, "Post couldn't be created", 500);
+        sendError(res, "Project couldn't be created", 500);
+    }
+})
+
+router.put('/:id', validateProjectID, async(req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        sendError(res, "Nothing to update", 400);
+        return;
+    }
+    try {
+        const proj = await projectsDB.update(req.project.id,  req.body);
+        if (proj) {
+            res.status(202).json(proj);
+        } else {
+            throw new Error("Couldn't update post");
+        }
+    } catch (error) {
+        sendError(res, "Couldn't update post", 500);
     }
 })
 module.exports = router;
