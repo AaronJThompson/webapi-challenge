@@ -56,4 +56,16 @@ router.delete('/:id', helper.validateProjectID, async (req, res) => {
         helper.sendError(res, "Project couldn't be deleted", 500);
     }
 })
+
+router.get('/:id/actions', helper.validateProjectID, async (req, res) => {
+    try {
+        const actions = await projectsDB.getProjectActions(req.project.id);
+        if (!actions) {
+            throw new Error("Couldn't get actions");
+        }
+        res.status(200).json(actions);
+    } catch (error) {
+        helper.sendError(res, "Couldn't get actions", 500);
+    }
+})
 module.exports = router;
