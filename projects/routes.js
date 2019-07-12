@@ -73,12 +73,21 @@ router.put('/:id', validateProjectID, async(req, res) => {
     try {
         const proj = await projectsDB.update(req.project.id,  req.body);
         if (proj) {
-            res.status(202).json(proj);
+            res.status(200).json(proj);
         } else {
             throw new Error("Couldn't update post");
         }
     } catch (error) {
         sendError(res, "Couldn't update post", 500);
+    }
+})
+
+router.delete('/:id', validateProjectID, async (req, res) => {
+    try {
+        await projectsDB.remove(req.project.id);
+        res.status(200).json(req.project);
+    } catch (error) {
+        sendError(res, "Project couldn't be deleted", 500);
     }
 })
 module.exports = router;
