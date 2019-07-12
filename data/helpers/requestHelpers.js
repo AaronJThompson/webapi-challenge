@@ -5,6 +5,8 @@ module.exports = {
     sendError,
     validateProject,
     validateProjectID,
+    validateAction,
+    validateActionID
 };
 
 function sendError (res, message = `Server couldn't complete request`, code = 500) {
