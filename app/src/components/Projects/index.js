@@ -7,7 +7,7 @@ function ProjectList(props) {
         <ul>
             {
                 projects.map(proj => {
-                    return <Project project={proj} />
+                    return <Project project={proj} />;
                 })
             }
         </ul>

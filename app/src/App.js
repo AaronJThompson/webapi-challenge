@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import ProjectList from './components/Projects';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const baseURL = 'http://localhost:4000/api'
+
+function createAPIUrl(extension) {
+  return `${baseURL}${extension}`;
+}
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      projects: [],
+      actions: [],
+    }
+  }
+
+  componentDidMount() {
+    axios
+    .get(createAPIUrl('/projects'))
+    .then(res => {
+      this.setState({projects: res.data});
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <ProjectList projects={this.state.projects} />
+      </div>
+    );
+  }
 }
 
 export default App;
