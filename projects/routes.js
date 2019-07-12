@@ -11,10 +11,13 @@ function sendError (res, message = `Server couldn't complete request`, code = 50
 
 async function validateProjectID(req, res, next) {
     if (req.params.id) {
-        const id = new Number(req.params.id);
+        const id = parseInt(req.params.id);
         if(!isNaN(id)) {
             try {
                 req.project = await projectsDB.get(id);
+                if (req.project === null || Object.keys(req.project).length === 0) {
+                    throw new Error("Project was empty or doesn't exist");
+                }
                 next();
                 return;
             } catch (error) {
@@ -36,6 +39,8 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:id')
+router.get('/:id', validateProjectID, (req, res) => {
+    res.status(200).json(req.project);
+})
 
 module.exports = router;
